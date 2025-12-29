@@ -1,5 +1,16 @@
+import { useNavigate } from "react-router-dom";
+import { TimerForm } from "../../components/TimerForm";
+
 export const EditTimerPage = () => {
+    const navigate = useNavigate();
+
+    const onSubmitForm = (formValue) => {
+        //TODO: add method editTimer
+
+        navigate('/timers');
+    };
+
     return (
-        <div>Страница редактирования таймера</div>
+        <TimerForm title={'Редактировать таймер'} onSubmitForm={onSubmitForm} />
     )
 };
