@@ -1,14 +1,23 @@
 import { useNavigate } from "react-router-dom";
 import { Text } from "../../../ui/Text";
+import { useUpdateTimersList } from "../../../../hooks/useUpdateTimersList";
 
 import * as SC from "./styles";
 
-export const Timer = ({ timer }) => {
+export const Timer = ({ timer, updateTimersList }) => {
     const navigate = useNavigate();
 
+    const { deleteTimer } = useUpdateTimersList();
+
+    const deleteTimerItem = () => {
+        deleteTimer(timer.title);
+        updateTimersList(); 
+    };
+
     return(
-        <SC.Timer onClick={() => navigate(`/timers/${timer._id}`, { state: {timer} })}>
-            <SC.Title>{timer.title}</SC.Title>
+        <SC.Timer >
+            <SC.DeleteIcon onClick={() => deleteTimerItem()}>×</SC.DeleteIcon>
+            <SC.Title onClick={() => navigate(`/timers/${timer._id}`, { state: {timer} })}>{timer.title}</SC.Title>
             <SC.Description>
                 <SC.TimerValues>
                     <Text><span>Количество циклов:</span> {timer.cycles}</Text>

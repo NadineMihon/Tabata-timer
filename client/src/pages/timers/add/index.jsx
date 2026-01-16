@@ -1,11 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import { TimerForm } from "../../components/TimerForm";
+import { useUpdateTimersList } from "../../../hooks/useUpdateTimersList";
 
 export const AddTimerPage = () => {
     const navigate = useNavigate();
 
+    const { addTimer } = useUpdateTimersList();
+
     const onSubmitForm = (formValues) => {
-        //TODO: add method addTimer
+        addTimer(formValues);
         navigate('/timers');
     };
 

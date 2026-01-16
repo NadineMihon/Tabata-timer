@@ -4,7 +4,6 @@ import { MainPage } from "../pages/main";
 import { TimersPage } from "../pages/timers";
 import { DetailTimerPage } from "../pages/timers/detail";
 import { AddTimerPage } from "../pages/timers/add";
-import { EditTimerPage } from "../pages/timers/edit";
 
 export const routesConfig = [
     {
@@ -27,10 +26,6 @@ export const routesConfig = [
                 path: '/timers/add',
                 element: <AddTimerPage />
             },
-            {
-                path: '/timers/:timerId/edit',
-                element: <EditTimerPage />
-            }
         ]    
     }
 ];
