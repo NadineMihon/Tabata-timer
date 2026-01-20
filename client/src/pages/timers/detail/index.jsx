@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useEffect, useState, useCallback } from "react";
+import { useLocation, useParams } from "react-router-dom";
+import { useGetTimer } from "../../../hooks/useGetTimer";
 import { Container } from "../../../components/ui/Container";
 import { Typo } from "../../../components/ui/Typo";
 import { Text } from "../../../components/ui/Text";
@@ -10,20 +11,43 @@ import * as SC from "./styles";
 
 export const DetailTimerPage = () => {
     const [isRunning, setIsRunning] = useState(false);
+    const [timerData, setTimerData] = useState(null);
+
     const location = useLocation();
+    const { timerId } = useParams();
 
     const initialTimer = location.state?.timer;
 
+    const getTimer = useGetTimer(timerId);
+
+    const updateTimer = useCallback(async () => {
+        try {
+            const result = await getTimer();
+
+            setTimerData(result);
+        } catch (e) {
+            console.log(e);
+        }
+    }, [getTimer]);
+        
+    useEffect(() => {
+        updateTimer();
+    }, [updateTimer]);
+
     const timerIcon = isRunning ? '❚❚' : '▶';
+
+    const timer = timerData || initialTimer;
 
     const onClick = () => {
         setIsRunning(!isRunning);
     };
 
+    if (!timer) return <>Loading..</>
+
     return (
         <Container>
             <SC.Wrapper>
-                <Typo>{initialTimer.title}</Typo>
+                <Typo>{timer.title}</Typo>
                 <SC.TimerWrapper>
                     <Typo>Стадия</Typo>
                     <SC.Timer>
@@ -33,7 +57,7 @@ export const DetailTimerPage = () => {
                     <Text>Текущий цикл</Text>
                 </SC.TimerWrapper>
                 <Field>
-                    <Text>{initialTimer.info}</Text>    
+                    <Text>{timer.info}</Text>    
                 </Field>    
             </SC.Wrapper>
         </Container>

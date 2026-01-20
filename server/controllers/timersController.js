@@ -13,9 +13,9 @@ class TimersController {
 
     async getTimer (req, res) {
         try {
-            const result = await TimersModel.findOne({ title: req.body.title });
+            const timer = await TimersModel.findById(req.params.id);
 
-            return res.status(200).json({ timer: result });
+            return res.status(200).json(timer);
         } catch (e) {
            return res.status(400).json({ message: 'Произошла ошибка при получении' }); 
         }
