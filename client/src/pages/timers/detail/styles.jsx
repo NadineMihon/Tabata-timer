@@ -18,6 +18,11 @@ export const TimerWrapper = styled.div `
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    background-color:${props => {
+        if (props.$phase === 'Работа') return '#ff4d4d44';
+        if (props.$phase === 'Отдых') return '#00c04044';
+    }};
 `
 
 export const Timer = styled.div `
@@ -26,4 +31,9 @@ export const Timer = styled.div `
     gap: 20px;
     align-items: center;
     justify-content: space-between;
+`
+export const Time = styled.div `
+    font-size: 50px;
+    font-weight: 600;
+    color: #130061;
 `

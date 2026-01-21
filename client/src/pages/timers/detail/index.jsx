@@ -8,9 +8,9 @@ import { Field } from "../../../components/ui/Field";
 import { Button } from "../../../components/ui/Button";
 
 import * as SC from "./styles";
+import { useTabataTimer } from "../../../hooks/useTabataTimer";
 
 export const DetailTimerPage = () => {
-    const [isRunning, setIsRunning] = useState(false);
     const [timerData, setTimerData] = useState(null);
 
     const location = useLocation();
@@ -34,13 +34,13 @@ export const DetailTimerPage = () => {
         updateTimer();
     }, [updateTimer]);
 
-    const timerIcon = isRunning ? '❚❚' : '▶';
-
     const timer = timerData || initialTimer;
 
-    const onClick = () => {
-        setIsRunning(!isRunning);
-    };
+    const { handleIsRunning, resetTimer, timeLeft, isRunning, currentPhase, currentCycle } = useTabataTimer(timer);
+
+    const timerIcon = isRunning ? '❚❚' : '▶';
+
+    const disabled = currentPhase === 'Тренировка завершена';
 
     if (!timer) return <>Loading..</>
 
@@ -48,13 +48,14 @@ export const DetailTimerPage = () => {
         <Container>
             <SC.Wrapper>
                 <Typo>{timer.title}</Typo>
-                <SC.TimerWrapper>
-                    <Typo>Стадия</Typo>
+                <SC.TimerWrapper $phase={currentPhase}>
+                    <Typo>{currentPhase}</Typo>
                     <SC.Timer>
-                        <Text>00.00</Text>
-                        <Button onClick={onClick}>{timerIcon}</Button>
+                        <SC.Time>{timeLeft}</SC.Time>
+                        <Button onClick={handleIsRunning} disabled={disabled}>{timerIcon}</Button>
+                        <Button onClick={resetTimer}>↺</Button>
                     </SC.Timer>
-                    <Text>Текущий цикл</Text>
+                    <Text>Текущий цикл: {currentCycle} из {timer.cycles}</Text>
                 </SC.TimerWrapper>
                 <Field>
                     <Text>{timer.info}</Text>    
