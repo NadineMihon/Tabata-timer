@@ -4,6 +4,7 @@ import { MainPage } from "../pages/main";
 import { TimersPage } from "../pages/timers";
 import { DetailTimerPage } from "../pages/timers/detail";
 import { AddTimerPage } from "../pages/timers/add";
+import { SchedulePage } from "../pages/schedule";
 
 export const routesConfig = [
     {
@@ -25,6 +26,10 @@ export const routesConfig = [
             {
                 path: '/timers/add',
                 element: <AddTimerPage />
+            },
+            {
+                path: '/schedule',
+                element: <SchedulePage />
             },
         ]    
     }
