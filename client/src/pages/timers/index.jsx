@@ -33,9 +33,6 @@ export const TimersPage = () => {
             <Typo>Список таймеров</Typo>
             <Timers timers={timersList} updateTimersList={updateTimersList}/>
             <Button onClick={() => navigate('/timers/add')}>Новый таймер</Button>
-            <br />
-            <br />
-            <br />
         </Container>
     )
 };

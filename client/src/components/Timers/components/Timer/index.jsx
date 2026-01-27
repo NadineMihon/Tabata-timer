@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Text } from "../../../ui/Text";
+import { Card } from "../../../ui/Card/styles";
 import { useUpdateTimersList } from "../../../../hooks/useUpdateTimersList";
 
 import * as SC from "./styles";
@@ -15,7 +16,7 @@ export const Timer = ({ timer, updateTimersList }) => {
     };
 
     return(
-        <SC.Timer >
+        <Card>
             <SC.DeleteIcon onClick={() => deleteTimerItem()}>×</SC.DeleteIcon>
             <SC.Title onClick={() => navigate(`/timers/${timer._id}`, { state: {timer} })}>{timer.title}</SC.Title>
             <SC.Description>
@@ -31,6 +32,6 @@ export const Timer = ({ timer, updateTimersList }) => {
                     </SC.Info>
                 }
             </SC.Description>
-        </SC.Timer>
+        </Card>
     )
-}
+};

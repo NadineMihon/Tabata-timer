@@ -1,18 +1,5 @@
 import styled from "styled-components";
 
-export const Timer = styled.div `
-    position: relative;
-    max-width: 600px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    justify-content: space-between;
-    align-items: center;
-    border: 2px solid #a38cff6f;
-    border-radius: 30px;
-    padding: 20px;
-`
 export const DeleteIcon = styled.div `
     position: absolute;
     top: 10px;
@@ -45,7 +32,9 @@ export const TimerValues = styled.div `
     align-items: center;
 `
 export const Info = styled.div `
+    width: 100%;
     display: flex;
     flex-direction: column;
     gap: 10px;
+    align-items: center;
 `

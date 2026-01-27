@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useGetTimer } from "../../../hooks/useGetTimer";
 import { Container } from "../../../components/ui/Container";
+import { Card } from "../../../components/ui/Card/styles";
 import { Form } from "../../../components/ui/Form";
 import { Modal } from "../../../components/ui/Modal";
 import { Typo } from "../../../components/ui/Typo";
@@ -113,7 +114,7 @@ export const DetailTimerPage = () => {
             }
             <SC.Wrapper>
                 <Typo>{timer.title}</Typo>
-                <SC.TimerWrapper $phase={currentPhase}>
+                <Card $phase={currentPhase} $width={400}>
                     <Typo>{currentPhase}</Typo>
                     <SC.Timer>
                         <SC.Time>{timeLeft}</SC.Time>
@@ -121,7 +122,7 @@ export const DetailTimerPage = () => {
                         <Button onClick={resetTimer}>↺</Button>
                     </SC.Timer>
                     <Text>Текущий цикл: {currentCycle} из {timer.cycles}</Text>
-                </SC.TimerWrapper>
+                </Card>
                 <Field>
                     <Text>{timer.info}</Text>    
                 </Field>
