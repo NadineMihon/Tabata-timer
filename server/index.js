@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const timersRoutes = require('./routes/timersRoutes');
+const scheduleRoutes = require('./routes/scheduleRoutes');
 
 require('dotenv').config();
 
@@ -11,6 +12,7 @@ app.use(cors());
 
 app.use(express.json());
 app.use('/api/timers', timersRoutes);
+app.use('api/tasks', scheduleRoutes);
 
 const PORT = process.env.PORT || 3001;
 
