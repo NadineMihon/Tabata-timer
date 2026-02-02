@@ -1,3 +1,3 @@
 import * as SC from "./styles";
 
-export const Field = ({ children }) => <SC.Field >{children}</SC.Field>
+export const Field = ({ children, ...props }) => <SC.Field {...props}>{children}</SC.Field>

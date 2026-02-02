@@ -12,15 +12,17 @@ import { Button } from "../../../components/ui/Button";
 import { Input } from "../../../components/ui/Input";
 import { useTabataTimer } from "../../../hooks/useTabataTimer";
 import { useUpdateTimersList } from "../../../hooks/useUpdateTimersList";
+import { useUpdateTaskList } from "../../../hooks/useUpdateTaskList";
 
 import * as SC from "./styles";
+
+const DEFAULT_VALUES = { timerId: '', date: '', time: '' };
 
 export const DetailTimerPage = () => {
     const [timerData, setTimerData] = useState(null);
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
     const [scheduleModalOpen, setScheduleModalOpen] = useState(false);
-    const [selectedDate, setSelectedDate] = useState(null);
-    const [selectedTime, setSelectedTime] = useState(null);
+    const [formValues, setFormValues] = useState(DEFAULT_VALUES);
 
     const navigate = useNavigate();
 
@@ -36,6 +38,8 @@ export const DetailTimerPage = () => {
             const result = await getTimer();
 
             setTimerData(result);
+
+            setFormValues({...formValues, timerId: result._id});
         } catch (e) {
             console.log(e);
         }
@@ -53,12 +57,16 @@ export const DetailTimerPage = () => {
 
     const disabled = currentPhase === 'Тренировка завершена';
 
+    const { addTask } = useUpdateTaskList();
+
+    const onChange = (name, value) => {
+        setFormValues({...formValues, [name]: value});
+    };
+
     const onSubmit = (e) => {
-        //TODO: add method addToSchedule
         e.preventDefault();
-        console.log(selectedDate, "selectedDate");
-        console.log(selectedTime, "selectedTime");
-        setScheduleModalOpen(false)
+        addTask(formValues);
+        setScheduleModalOpen(false);
     };
 
     const { deleteTimer } = useUpdateTimersList();
@@ -92,8 +100,9 @@ export const DetailTimerPage = () => {
                                 <Input 
                                     type="date"
                                     name="date"
+                                    value={formValues.date}
                                     min={new Date().toISOString().split('T')[0]}
-                                    onChange={(e) => setSelectedDate(e.target.value)} 
+                                    onChange={(e) => onChange(e.target.name, e.target.value)} 
                                     required
                                 />
                             </Field>
@@ -101,7 +110,8 @@ export const DetailTimerPage = () => {
                                 <Input 
                                     type="time" 
                                     name="time"
-                                    onChange={(e) => setSelectedTime(e.target.value)}
+                                    value={formValues.time}
+                                    onChange={(e) => onChange(e.target.name, e.target.value)}
                                     required
                                 />
                             </Field>

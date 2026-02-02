@@ -2,9 +2,11 @@ import { useState, useEffect, useCallback } from "react";
 import { Container } from "../../../../../ui/Container";
 import { Text } from "../../../../../ui/Text";
 import { Field } from "../../../../../ui/Field";
+import { DeleteIcon } from "../../../../../ui/DeleteIcon";
 import { useGetTimer } from "../../../../../../hooks/useGetTimer";
+import { useUpdateTaskList } from "../../../../../../hooks/useUpdateTaskList";
 
-export const Task = ({ task }) => {
+export const Task = ({ task, updateTaskList }) => {
     const [timer, setTimer] = useState(null);
 
     const { timerId, time, status } = task;
@@ -27,15 +29,30 @@ export const Task = ({ task }) => {
 
     const statusIcon = status === "scheduled" ? "⌛" : status === "done" ? "✔️" : "❌";
 
+    const { deleteTask } = useUpdateTaskList();
+
+    const deleteTaskItem = async () => {
+        try {
+            const result = await deleteTask(task._id);
+
+            if (!result) return;
+
+            await updateTaskList();
+        } catch (e) {
+            console.log('Возникла ошибка при удалении', e)
+        }
+    };
+
     //TODO: Add Loader
     if (!timer) return <>Loading...</>
 
     return (
         <Container>
-            <Field>
+            <Field $justifyContent = {'left'}>
+                <DeleteIcon onClick={() => deleteTaskItem()} />
                 <Text>{time}:</Text>
                 <Text>{timer.title}</Text>
-                <Text>{statusIcon}</Text>    
+                <Text>{statusIcon}</Text>   
             </Field>
         </Container>
     )

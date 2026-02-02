@@ -4,7 +4,7 @@ import { Container } from "../ui/Container";
 
 import * as SC from "./styles";
 
-export const Schedule = ({ taskList }) => {
+export const Schedule = ({ taskList, updateTaskList }) => {
     const [trainingSchedule, setTrainingSchedule] = useState([]);
 
     useEffect(() => {
@@ -38,7 +38,11 @@ export const Schedule = ({ taskList }) => {
         <Container>
             <SC.ScheduleWrapper>
                 {
-                    trainingSchedule.map((day) => <ScheduleItem key={day.date} scheduleItem={day}/>)
+                    trainingSchedule.map((day) => <ScheduleItem 
+                        key={day.date} 
+                        scheduleItem={day} 
+                        updateTaskList={updateTaskList}
+                    />)
                 }    
             </SC.ScheduleWrapper>
         </Container>

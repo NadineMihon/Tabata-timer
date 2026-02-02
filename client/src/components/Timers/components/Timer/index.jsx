@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { Text } from "../../../ui/Text";
 import { Card } from "../../../ui/Card/styles";
+import { DeleteIcon } from "../../../ui/DeleteIcon";
 import { useUpdateTimersList } from "../../../../hooks/useUpdateTimersList";
 
 import * as SC from "./styles";
@@ -10,14 +11,21 @@ export const Timer = ({ timer, updateTimersList }) => {
 
     const { deleteTimer } = useUpdateTimersList();
 
-    const deleteTimerItem = () => {
-        deleteTimer(timer.title);
-        updateTimersList(); 
+    const deleteTimerItem = async () => {
+        try {
+            const result = await deleteTimer(timer.title);
+
+            if (!result) return;
+
+            await updateTimersList();
+        } catch (e) {
+            console.log('Возникла ошибка при удалении', e);
+        } 
     };
 
     return(
         <Card>
-            <SC.DeleteIcon onClick={() => deleteTimerItem()}>×</SC.DeleteIcon>
+            <DeleteIcon $top={'10px'} onClick={() => deleteTimerItem()} />
             <SC.Title onClick={() => navigate(`/timers/${timer._id}`, { state: {timer} })}>{timer.title}</SC.Title>
             <SC.Description>
                 <SC.TimerValues>

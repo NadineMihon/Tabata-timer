@@ -3,7 +3,7 @@ import { Card } from "../../../ui/Card/styles";
 import { Typo } from "../../../ui/Typo";
 import { Task } from "./components/Task";
 
-export const ScheduleItem = ({ scheduleItem }) => {
+export const ScheduleItem = ({ scheduleItem, updateTaskList }) => {
     const formatDate = () => {
         const [year, month, day] = scheduleItem.date.split('-');
 
@@ -16,10 +16,10 @@ export const ScheduleItem = ({ scheduleItem }) => {
 
     return (
         <Container>
-            <Card>
+            <Card $width={400}>
                 <Typo>{date}</Typo>
                 {
-                    scheduleItem.tasks.map((task) => <Task key={task._id} task={task} />)
+                    scheduleItem.tasks.map((task) => <Task key={task._id} task={task} updateTaskList={updateTaskList} />)
                 }
             </Card>
         </Container>

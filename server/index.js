@@ -12,7 +12,7 @@ app.use(cors());
 
 app.use(express.json());
 app.use('/api/timers', timersRoutes);
-app.use('api/tasks', scheduleRoutes);
+app.use('/api/tasks', scheduleRoutes);
 
 const PORT = process.env.PORT || 3001;
 

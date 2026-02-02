@@ -1,14 +1,5 @@
 import styled from "styled-components";
 
-export const DeleteIcon = styled.div `
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    font-size: 30px;
-    font-weight: 600;
-    color: #4314ffbd;
-    cursor: pointer;
-`
 export const Title = styled.div `
     font-size: 22px;
     font-weight: bold;

@@ -5,6 +5,8 @@ class TimersController {
         try {
             const result = await TimersModel.find({});
 
+            console.log('GET /list result =', result);
+
             return res.status(200).json({ timers: result });
         } catch (e) {
             return res.status(400).json({ message: 'Произошла ошибка при получении' });
@@ -61,7 +63,11 @@ class TimersController {
                 return res.status(400).json({ message: 'Пожалуйста, добавьте название' });
             }
 
+            console.log('DELETE body =', req.body)
+
             const { deletedCount } = await TimersModel.deleteOne({ title: req.body.title });
+
+             console.log('DELETE deletedCount =', deletedCount);
 
             if (deletedCount === 0) {
                 return res.status(400).json({ message: 'К сожалению, не получилось удалить таймер' });

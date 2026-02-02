@@ -42,7 +42,7 @@ class ScheduleController {
 
     async deleteTask (req, res) {
         try {
-            const deletedTask = await ScheduleModel.findByIdAndDelete(req.params.id);
+            const deletedTask = await ScheduleModel.findByIdAndDelete(req.body._id);
 
             if (!deletedTask) {
                 return res.status(404).json({ message: 'Задача не найдена' });
