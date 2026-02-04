@@ -1,12 +1,16 @@
 import { useState, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import { Container } from "../../../../../ui/Container";
 import { Text } from "../../../../../ui/Text";
 import { Field } from "../../../../../ui/Field";
 import { DeleteIcon } from "../../../../../ui/DeleteIcon";
+import { Button } from "../../../../../ui/Button";
 import { useGetTimer } from "../../../../../../hooks/useGetTimer";
 import { useUpdateTaskList } from "../../../../../../hooks/useUpdateTaskList";
 
 export const Task = ({ task, updateTaskList }) => {
+    const navigate = useNavigate();
+
     const [timer, setTimer] = useState(null);
 
     const { timerId, time, status } = task;
@@ -43,6 +47,8 @@ export const Task = ({ task, updateTaskList }) => {
         }
     };
 
+    const disabled = Boolean(task.completedAt);
+
     //TODO: Add Loader
     if (!timer) return <>Loading...</>
 
@@ -52,7 +58,13 @@ export const Task = ({ task, updateTaskList }) => {
                 <DeleteIcon onClick={() => deleteTaskItem()} />
                 <Text>{time}:</Text>
                 <Text>{timer.title}</Text>
-                <Text>{statusIcon}</Text>   
+                <Text>{statusIcon}</Text>
+                <Button 
+                    onClick={() => navigate(`/timers/${timer._id}`, { state: {timer, taskId: task._id} })}
+                    disabled={disabled}
+                >
+                    Старт
+                </Button>   
             </Field>
         </Container>
     )

@@ -1,11 +1,10 @@
+const ScheduleModel = require('../models/ScheduleModel');
 const TimersModel = require('../models/TimersModel');
 
 class TimersController {
     async getTimers (req, res) {
         try {
             const result = await TimersModel.find({});
-
-            console.log('GET /list result =', result);
 
             return res.status(200).json({ timers: result });
         } catch (e) {
@@ -63,17 +62,20 @@ class TimersController {
                 return res.status(400).json({ message: 'Пожалуйста, добавьте название' });
             }
 
-            console.log('DELETE body =', req.body)
-
             const { deletedCount } = await TimersModel.deleteOne({ title: req.body.title });
-
-             console.log('DELETE deletedCount =', deletedCount);
 
             if (deletedCount === 0) {
                 return res.status(400).json({ message: 'К сожалению, не получилось удалить таймер' });
             }
 
-            return res.status(200).json({ message: 'Таймер успешно удален' });
+            const  { deletedCount: deletedCountTasks } = await ScheduleModel.deleteMany({ timerId: req.body.timerId });
+
+            if (deletedCountTasks === 0) {
+                return res.status(200).json({ message: 'Таймер успешно удален' });    
+            }
+
+            return res.status(200).json({ message: 'Таймер и задачи успешно удалены' });
+
         } catch (e) {
            return res.status(400).json({ message: 'Произошла ошибка при удалении' }); 
         }

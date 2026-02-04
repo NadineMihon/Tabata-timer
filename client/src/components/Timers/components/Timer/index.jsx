@@ -13,7 +13,7 @@ export const Timer = ({ timer, updateTimersList }) => {
 
     const deleteTimerItem = async () => {
         try {
-            const result = await deleteTimer(timer.title);
+            const result = await deleteTimer(timer.title, timer._id);
 
             if (!result) return;
 

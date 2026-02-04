@@ -32,10 +32,10 @@ export const useUpdateTimersList = () => {
         })
     }, [asyncAction]);
 
-    const deleteTimer = useCallback(async (title) => {
+    const deleteTimer = useCallback(async (title, timerId) => {
         return asyncAction('/delete', {
             method: 'DELETE',
-            body: JSON.stringify({ title }),
+            body: JSON.stringify({ title, timerId }),
         })
     }, [asyncAction]);
 

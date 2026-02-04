@@ -39,8 +39,16 @@ export const useUpdateTaskList = () =>{
         })
     }, [asyncAction]);
 
+    const updateTask = useCallback(async (id, data) => {
+        return asyncAction(`/list/${id}`, {
+            method: 'PATCH',
+            body: JSON.stringify(data),
+        })
+    }, [asyncAction]);
+
     return {
         addTask,
-        deleteTask
+        deleteTask, 
+        updateTask
     }
 };

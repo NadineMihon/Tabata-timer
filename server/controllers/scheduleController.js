@@ -29,7 +29,9 @@ class ScheduleController {
                 timerId: req.body.timerId,
                 date: req.body.date,
                 time: req.body.time,
-                status: 'scheduled'
+                status: 'scheduled',
+                notified: false,
+                completedAt: '',
             });
 
             await taskModel.save();
@@ -59,9 +61,19 @@ class ScheduleController {
 
     async updateTask (req, res) {
         try {
+            let updateData = {};
+
+            if (req.body.completedAt) {
+                updateData.completedAt = req.body.completedAt;
+            }
+
+            if (typeof req.body.notified !== 'undefined') {
+                updateData.notified = req.body.notified;
+            }
+
             const updatedTask = await ScheduleModel.findByIdAndUpdate(
                 req.params.id,
-                { status: req.body.status },
+                updateData,
                 { new: true, runValidators: true }
             );
 

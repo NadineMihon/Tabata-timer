@@ -30,6 +30,7 @@ export const DetailTimerPage = () => {
     const { timerId } = useParams();
 
     const initialTimer = location.state?.timer;
+    const { taskId } = location.state;
 
     const getTimer = useGetTimer(timerId);
 
@@ -51,7 +52,7 @@ export const DetailTimerPage = () => {
 
     const timer = timerData || initialTimer;
 
-    const { handleIsRunning, resetTimer, timeLeft, isRunning, currentPhase, currentCycle } = useTabataTimer(timer);
+    const { handleIsRunning, resetTimer, timeLeft, isRunning, currentPhase, currentCycle } = useTabataTimer(timer, taskId);
 
     const timerIcon = isRunning ? '❚❚' : '▶';
 
@@ -72,7 +73,7 @@ export const DetailTimerPage = () => {
     const { deleteTimer } = useUpdateTimersList();
     
     const deleteTimerItem = () => {
-        deleteTimer(timer.title);
+        deleteTimer(timer.title, timer._id);
         setDeleteModalOpen(false);
         navigate('/timers'); 
     };

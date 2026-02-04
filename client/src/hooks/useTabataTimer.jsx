@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react"
+import { useUpdateTaskList } from "./useUpdateTaskList";
 
-export const useTabataTimer = (timer) => {
+export const useTabataTimer = (timer, taskId) => {
     const { cycles, workTime, restTime } = timer;
 
     const [timeLeft, setTimeLeft] = useState(workTime);
@@ -80,6 +81,8 @@ export const useTabataTimer = (timer) => {
         }
     }, [timeLeft, isRunning, currentPhase, workTime, restTime, playSound]);
 
+    const { updateTask } = useUpdateTaskList();
+
     useEffect(() => {
         if (currentCycle > cycles && isRunning) {
             setIsRunning(false);
@@ -87,6 +90,11 @@ export const useTabataTimer = (timer) => {
             playSound('complete');
             setCurrentPhase('Тренировка завершена');
             setCurrentCycle(cycles);
+
+            if (taskId) {
+                const completedAt = new Date();
+                updateTask(taskId, { completedAt });  
+            }
         }
     }, [currentCycle, cycles, isRunning, playSound]);
 

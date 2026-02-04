@@ -16,7 +16,9 @@ const ScheduleSchema = new Schema({
     status: {
         type: String,
         required: [true, 'Статус обязателен!']
-    }
+    },
+    notified: Boolean,
+    completedAt: Date
 });
 
 module.exports = model('Tasks', ScheduleSchema);
