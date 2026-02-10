@@ -1,7 +1,7 @@
 import { useCallback } from "react"
 
-export const useGetTimer = (id) => {
-    return useCallback(async () => {
+export const useGetTimer = () => {
+    return useCallback(async (id) => {
         if (!id) return Promise.reject(new Error('ID обязателен!'));
 
          return await fetch(`http://localhost:3003/api/timers/${id}`)
@@ -12,5 +12,5 @@ export const useGetTimer = (id) => {
 
                 return response.json();
             });
-    }, [id]);
+    }, []);
 };

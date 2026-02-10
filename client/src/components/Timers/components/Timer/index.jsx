@@ -25,7 +25,7 @@ export const Timer = ({ timer, updateTimersList }) => {
 
     return(
         <Card>
-            <DeleteIcon $top={'10px'} onClick={() => deleteTimerItem()} />
+            <DeleteIcon $position={'absolute'} $top={'10px'} onClick={() => deleteTimerItem()} />
             <SC.Title onClick={() => navigate(`/timers/${timer._id}`, { state: {timer} })}>{timer.title}</SC.Title>
             <SC.Description>
                 <SC.TimerValues>

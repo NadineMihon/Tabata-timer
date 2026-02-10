@@ -1,6 +1,8 @@
 import { useEffect, useState, useCallback } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useGetTimer } from "../../../hooks/useGetTimer";
+import { useTabataTimer } from "../../../hooks/useTabataTimer";
+import { useUpdateTaskList } from "../../../hooks/useUpdateTaskList";
 import { Container } from "../../../components/ui/Container";
 import { Card } from "../../../components/ui/Card/styles";
 import { Form } from "../../../components/ui/Form";
@@ -10,9 +12,6 @@ import { Text } from "../../../components/ui/Text";
 import { Field } from "../../../components/ui/Field";
 import { Button } from "../../../components/ui/Button";
 import { Input } from "../../../components/ui/Input";
-import { useTabataTimer } from "../../../hooks/useTabataTimer";
-import { useUpdateTimersList } from "../../../hooks/useUpdateTimersList";
-import { useUpdateTaskList } from "../../../hooks/useUpdateTaskList";
 
 import * as SC from "./styles";
 
@@ -32,15 +31,15 @@ export const DetailTimerPage = () => {
     const initialTimer = location.state?.timer;
     const { taskId } = location.state;
 
-    const getTimer = useGetTimer(timerId);
+    const getTimer = useGetTimer();
 
     const updateTimer = useCallback(async () => {
         try {
-            const result = await getTimer();
+            const result = await getTimer(timerId);
 
             setTimerData(result);
 
-            setFormValues({...formValues, timerId: result._id});
+            setFormValues({...formValues, timerId: result._id, title: result.title});
         } catch (e) {
             console.log(e);
         }
@@ -52,13 +51,20 @@ export const DetailTimerPage = () => {
 
     const timer = timerData || initialTimer;
 
-    const { handleIsRunning, resetTimer, timeLeft, isRunning, currentPhase, currentCycle } = useTabataTimer(timer, taskId);
+    const { 
+        handleIsRunning, 
+        resetTimer, 
+        timeLeft, 
+        isRunning, 
+        currentPhase, 
+        currentCycle 
+    } = useTabataTimer(timer, taskId);
+
+    const { addTask, deleteTimer } = useUpdateTaskList();
 
     const timerIcon = isRunning ? '❚❚' : '▶';
 
     const disabled = currentPhase === 'Тренировка завершена';
-
-    const { addTask } = useUpdateTaskList();
 
     const onChange = (name, value) => {
         setFormValues({...formValues, [name]: value});
@@ -69,8 +75,6 @@ export const DetailTimerPage = () => {
         addTask(formValues);
         setScheduleModalOpen(false);
     };
-
-    const { deleteTimer } = useUpdateTimersList();
     
     const deleteTimerItem = () => {
         deleteTimer(timer.title, timer._id);

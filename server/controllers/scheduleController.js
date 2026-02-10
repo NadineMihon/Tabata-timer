@@ -13,7 +13,7 @@ class ScheduleController {
 
     async addTask (req, res) {
         try {
-            if (!req.body.timerId) {
+            if (!req.body.timerId || !req.body.title) {
                 return res.status(400).json({ message: 'Произошла ошибка при выборе тренировки' });
             }
 
@@ -27,11 +27,13 @@ class ScheduleController {
 
             const taskModel = new ScheduleModel({
                 timerId: req.body.timerId,
-                date: req.body.date,
+                title: req.body.title,
+                date: new Date(req.body.date),
                 time: req.body.time,
                 status: 'scheduled',
                 notified: false,
                 completedAt: '',
+                showNotification: false,
             });
 
             await taskModel.save();
@@ -61,15 +63,28 @@ class ScheduleController {
 
     async updateTask (req, res) {
         try {
+            const task = await ScheduleModel.findById(req.params.id);
+
+            if (!task) {
+                return res.status(404).json({ message: 'Задача не найдена' });
+            }
+
             let updateData = {};
 
-            if (req.body.completedAt) {
-                updateData.completedAt = req.body.completedAt;
+            if (!req.body.completedAt) {
+               return res.status(400).json({ message: 'completedAt не передан' });
             }
 
-            if (typeof req.body.notified !== 'undefined') {
-                updateData.notified = req.body.notified;
+            if (task.completedAt) {
+                return res.status(409).json({ message: 'Задача уже выполнена' });
             }
+
+            if (task.status !== 'scheduled') {
+                return res.status(409).json({ message: 'Задача не запланирована' });
+            }
+
+            updateData.completedAt = req.body.completedAt;
+            updateData.status = 'completed';
 
             const updatedTask = await ScheduleModel.findByIdAndUpdate(
                 req.params.id,
@@ -88,6 +103,37 @@ class ScheduleController {
         } catch (e) {
             return res.status(400).json({ message: 'Произошла ошибка при обновлении' });
         }
+    };
+    async updateTaskNotification (req, res) {
+        try {
+            const task = await ScheduleModel.findById(req.params.id);
+
+            if (!task) {
+                return res.status(404).json({ message: 'Задача не найдена' });
+            }
+            
+            if (typeof req.body.showNotification === 'undefined') {
+                return res.status(400).json({ message: 'showNotification не передан' });
+            }
+
+            const updatedTask = await ScheduleModel.findByIdAndUpdate(
+                req.params.id,
+                { showNotification: req.body.showNotification },
+                { new: true, runValidators: true }
+            )
+
+            if (!updatedTask) {
+                return res.status(404).json({ message: 'Задача не найдена' });
+            }
+
+            return res.status(200).json({
+                message: 'Задача успешно обновлена',
+                task: updatedTask
+            });
+            
+        } catch (e) {
+            return res.status(400).json({ message: 'Произошла ошибка при обновлении' });
+        } 
     };
 };
 

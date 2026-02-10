@@ -5,7 +5,12 @@ import { Task } from "./components/Task";
 
 export const ScheduleItem = ({ scheduleItem, updateTaskList }) => {
     const formatDate = () => {
-        const [year, month, day] = scheduleItem.date.split('-');
+        const raw = scheduleItem.date;
+        const date = new Date(raw);
+
+        const day = date.getDate().toString().padStart(2, '0');
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const year = date.getFullYear();
 
         const currentDate = `${day}.${month}.${year}`;
 

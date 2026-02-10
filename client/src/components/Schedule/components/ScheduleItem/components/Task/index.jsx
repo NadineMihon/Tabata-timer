@@ -15,11 +15,11 @@ export const Task = ({ task, updateTaskList }) => {
 
     const { timerId, time, status } = task;
 
-    const getTimer = useGetTimer(timerId);
+    const getTimer = useGetTimer();
     
     const updateTimer = useCallback(async () => {
         try {
-            const result = await getTimer();
+            const result = await getTimer(timerId);
     
             setTimer(result);
         } catch (e) {
@@ -31,7 +31,7 @@ export const Task = ({ task, updateTaskList }) => {
         updateTimer();
     }, [updateTimer]);
 
-    const statusIcon = status === "scheduled" ? "⌛" : status === "done" ? "✔️" : "❌";
+    const statusIcon = status === "scheduled" ? "⌛" : status === "completed" ? "✔️" : "❌";
 
     const { deleteTask } = useUpdateTaskList();
 
@@ -47,25 +47,23 @@ export const Task = ({ task, updateTaskList }) => {
         }
     };
 
-    const disabled = Boolean(task.completedAt);
+    const disabled = Boolean(task.completedAt || task.status !== 'scheduled');
 
     //TODO: Add Loader
     if (!timer) return <>Loading...</>
 
     return (
-        <Container>
-            <Field $justifyContent = {'left'}>
-                <DeleteIcon onClick={() => deleteTaskItem()} />
-                <Text>{time}:</Text>
-                <Text>{timer.title}</Text>
-                <Text>{statusIcon}</Text>
-                <Button 
-                    onClick={() => navigate(`/timers/${timer._id}`, { state: {timer, taskId: task._id} })}
-                    disabled={disabled}
-                >
-                    Старт
-                </Button>   
-            </Field>
-        </Container>
+        <Field $justifyContent={'left'}>
+            <Text $flex={1}>{time}:</Text>
+            <Text $flex={1}>{task.title}</Text>
+            <Text $flex={1}>{statusIcon}</Text>
+            <Button 
+                onClick={() => navigate(`/timers/${timer._id}`, { state: {timer, taskId: task._id} })}
+                disabled={disabled}
+            >
+                Старт
+            </Button>
+            <DeleteIcon onClick={() => deleteTaskItem()} />   
+        </Field>
     )
 };

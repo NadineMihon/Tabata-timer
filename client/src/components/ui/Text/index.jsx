@@ -1,3 +1,3 @@
 import * as SC from "./styles";
 
-export const Text = ({ children }) => <SC.Text>{children}</SC.Text>
+export const Text = ({ children, ...props }) => <SC.Text {...props}>{children}</SC.Text>

@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const timersRoutes = require('./routes/timersRoutes');
 const scheduleRoutes = require('./routes/scheduleRoutes');
+const cron = require('node-cron');
+const runScheduleTasksJob = require('./jobs/scheduleTasksJob');
 
 require('dotenv').config();
 
@@ -19,6 +21,10 @@ const PORT = process.env.PORT || 3001;
 const start = async () => {
     try {
         await mongoose.connect(process.env.DB_CONNECT);
+
+        cron.schedule('* * * * *', () => {
+            runScheduleTasksJob();
+        });
 
         app.listen(PORT, () => console.log(`Server started on port - ${PORT}`));
     } catch (e) {

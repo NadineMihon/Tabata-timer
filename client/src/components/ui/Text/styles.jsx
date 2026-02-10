@@ -6,6 +6,7 @@ export const Text = styled.p `
     text-indent: 20px;
     line-height: 1.5em;
     margin: 0;
+    flex:${props => props.$flex === 1 ? 1 : 'none'};
 
         & span {
             font-weight: 600;
