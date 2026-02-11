@@ -5,11 +5,12 @@ import { Button } from "../../components/ui/Button";
 import { Timers } from "../../components/Timers";
 import { useState, useCallback, useEffect } from "react";
 import { useGetTimersList } from "../../hooks/useGetTimersList";
+import { Loader } from "../../components/ui/Loader";
 
 export const TimersPage = () => {
     const navigate = useNavigate();
 
-    const [timersList, setTimersList] = useState([]);
+    const [timersList, setTimersList] = useState(null);
 
     const getTimersList = useGetTimersList();
 
@@ -27,6 +28,8 @@ export const TimersPage = () => {
     useEffect(() => {
        updateTimersList();
     }, [updateTimersList]);
+
+    if (!timersList) return <Loader />
 
     return (
         <Container>

@@ -5,9 +5,10 @@ import { Typo } from "../../components/ui/Typo";
 import { Text } from "../../components/ui/Text";
 import { useGetTaskList } from "../../hooks/useGetTaskList";
 import { Field } from "../../components/ui/Field";
+import { Loader } from "../../components/ui/Loader";
 
 export const SchedulePage  = () => {
-    const [taskList, setTaskList] = useState([]);
+    const [taskList, setTaskList] = useState(null);
 
     const getTaskList = useGetTaskList();
 
@@ -26,6 +27,8 @@ export const SchedulePage  = () => {
         updateTaskList();
     }, [updateTaskList]);
 
+    if (!taskList) return <Loader />
+
     return (
         <Container>
             <Typo>Моё расписание тренировок</Typo>
@@ -36,7 +39,6 @@ export const SchedulePage  = () => {
                 /> : <Field>
                     <Text>Тренировки не запланированы</Text>    
                 </Field>
-                
             }
         </Container>
     )

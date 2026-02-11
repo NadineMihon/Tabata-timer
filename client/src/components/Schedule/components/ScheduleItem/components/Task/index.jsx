@@ -7,6 +7,7 @@ import { DeleteIcon } from "../../../../../ui/DeleteIcon";
 import { Button } from "../../../../../ui/Button";
 import { useGetTimer } from "../../../../../../hooks/useGetTimer";
 import { useUpdateTaskList } from "../../../../../../hooks/useUpdateTaskList";
+import { Loader } from "../../../../../ui/Loader";
 
 export const Task = ({ task, updateTaskList }) => {
     const navigate = useNavigate();
@@ -49,8 +50,7 @@ export const Task = ({ task, updateTaskList }) => {
 
     const disabled = Boolean(task.completedAt || task.status !== 'scheduled');
 
-    //TODO: Add Loader
-    if (!timer) return <>Loading...</>
+    if (!timer) return <Loader />
 
     return (
         <Field $justifyContent={'left'}>

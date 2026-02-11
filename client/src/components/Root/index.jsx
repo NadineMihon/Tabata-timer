@@ -10,6 +10,7 @@ import { useGetTaskList } from "../../hooks/useGetTaskList";
 import { useGetTimer } from "../../hooks/useGetTimer";
 
 import * as SC from "./styles";
+import { Footer } from "../ui/Footer";
 
 export const Root = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -31,7 +32,7 @@ export const Root = () => {
         setIsModalOpen(false);
 
         if (agree) {
-            navigate(`/timers/${currentTask.timerId}`, { state: { timer, taskId: currentTask._id } });
+            navigate(`/timers/${timer._id}`, { state: { timer, taskId: currentTask._id } });
         }
 
         setCurrentTask(null);
@@ -78,8 +79,8 @@ export const Root = () => {
                     <Text>У Вас запланирована тренировка - {currentTask.title}</Text>
                     <Text>Хотите начать?</Text>
                     <Field>
-                        <Button onClick={() => closeModal({ agree: true })}>Да</Button>
-                        <Button onClick={() => closeModal()}>Позже</Button>    
+                        <Button onClick={() => closeModal(true)}>Да</Button>
+                        <Button onClick={() => closeModal(false)}>Позже</Button>    
                     </Field>
                 </Modal>
             }
@@ -91,6 +92,7 @@ export const Root = () => {
                 </SC.Menu>                        
             </Container>
             <Outlet />
+            <Footer />
         </SC.Wrapper>
     )
 };

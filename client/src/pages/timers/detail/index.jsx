@@ -14,6 +14,7 @@ import { Button } from "../../../components/ui/Button";
 import { Input } from "../../../components/ui/Input";
 
 import * as SC from "./styles";
+import { Loader } from "../../../components/ui/Loader";
 
 const DEFAULT_VALUES = { timerId: '', date: '', time: '' };
 
@@ -82,7 +83,7 @@ export const DetailTimerPage = () => {
         navigate('/timers'); 
     };
 
-    if (!timer) return <>Loading..</>
+    if (!timer) return <Loader />
 
     return (
         <Container>
