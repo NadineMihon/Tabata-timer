@@ -1,13 +1,13 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container } from "../../../../../ui/Container";
 import { Text } from "../../../../../ui/Text";
-import { Field } from "../../../../../ui/Field";
 import { DeleteIcon } from "../../../../../ui/DeleteIcon";
 import { Button } from "../../../../../ui/Button";
 import { useGetTimer } from "../../../../../../hooks/useGetTimer";
 import { useUpdateTaskList } from "../../../../../../hooks/useUpdateTaskList";
 import { Loader } from "../../../../../ui/Loader";
+
+import * as SC from "./styles";
 
 export const Task = ({ task, updateTaskList }) => {
     const navigate = useNavigate();
@@ -53,10 +53,10 @@ export const Task = ({ task, updateTaskList }) => {
     if (!timer) return <Loader />
 
     return (
-        <Field $justifyContent={'left'}>
-            <Text $flex={1}>{time}:</Text>
+        <SC.Task>
+            <Text>{time}:</Text>
             <Text $flex={1}>{task.title}</Text>
-            <Text $flex={1}>{statusIcon}</Text>
+            <Text>{statusIcon}</Text>
             <Button 
                 onClick={() => navigate(`/timers/${timer._id}`, { state: {timer, taskId: task._id} })}
                 disabled={disabled}
@@ -64,6 +64,6 @@ export const Task = ({ task, updateTaskList }) => {
                 Старт
             </Button>
             <DeleteIcon onClick={() => deleteTaskItem()} />   
-        </Field>
+        </SC.Task>
     )
 };

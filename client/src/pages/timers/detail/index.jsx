@@ -12,9 +12,9 @@ import { Text } from "../../../components/ui/Text";
 import { Field } from "../../../components/ui/Field";
 import { Button } from "../../../components/ui/Button";
 import { Input } from "../../../components/ui/Input";
+import { Loader } from "../../../components/ui/Loader";
 
 import * as SC from "./styles";
-import { Loader } from "../../../components/ui/Loader";
 
 const DEFAULT_VALUES = { timerId: '', date: '', time: '' };
 

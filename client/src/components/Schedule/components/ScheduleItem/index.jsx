@@ -21,7 +21,7 @@ export const ScheduleItem = ({ scheduleItem, updateTaskList }) => {
 
     return (
         <Container>
-            <Card $width={400}>
+            <Card>
                 <Typo>{date}</Typo>
                 {
                     scheduleItem.tasks.map((task) => <Task key={task._id} task={task} updateTaskList={updateTaskList} />)
